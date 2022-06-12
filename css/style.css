@@ -1,0 +1,34 @@
+body {
+  background-color: rgb(189, 186, 186);
+  margin: 0px;
+  padding: 0px;
+}
+
+ header {
+  background-color: rgb(240, 240, 232);
+  margin: 0px;
+ }
+
+h1 {
+  color: rgb(79, 11, 79);
+  margin-top: 0px;
+  padding-left: 50px;
+  font-size: 4rem;
+  font-weight: bolder;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#images {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+#img-0 {
+  margin-right: 100px;
+}
+
+#img-1 {
+  margin-right: 100px;
+}
