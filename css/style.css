@@ -32,3 +32,46 @@ h1 {
 #img-1 {
   margin-right: 100px;
 }
+
+button {
+  display: flex;
+  justify-content: center;
+  width: 10%;
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  border-radius: 1em;
+
+}
+ button:hover {
+  background-color: silver;
+ }
+
+li {
+  list-style: none;
+  padding-top: 10px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;  
+}
+
+#results {
+  margin-top: 20px;
+}
+
+footer {
+  margin-top: 60px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  height: 20px;
+  width: 100%;
+  background-color: rgb(240, 240, 232);
+}
+
+#copyright {
+  font-size: small;
+  padding-left: 15px;
+  padding-top: 10px;
+  color: rgb(79, 11, 79);
+}
