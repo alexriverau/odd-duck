@@ -79,8 +79,11 @@ showRandProducts();
 
 // click image controler & round counter function
 
+let totalClicks = 25;
+let currentClicks = 0;
+
 function clickImg() {
-  currentRounds++;
+  currentClicks++;
   randomProducts = [];
   showRandProducts();
   addClickHandler(0);
@@ -89,16 +92,16 @@ function clickImg() {
 }
 
 // add / remove event listener & click counter function
-let totalRounds = 25;
-let currentRounds = 0;
 
 function addClickHandler(i) {
   shownProducts[i].clicks++;
   let img = document.getElementById(`img-${i}`);
-  if (currentRounds === totalRounds) {
+  if (currentClicks === totalClicks) {
     img.removeEventListener('click', clickImg);
   } else {
     img.addEventListener('click', clickImg);
+    shownProducts[i].clicks++;
+    showRandProducts();
   }
 }
 addClickHandler(0);
