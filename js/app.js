@@ -72,7 +72,7 @@ function showRandProducts() {
 
     shownProduct.views++;
     shownProduct.render(i);
-    console.log(shownProduct);
+    // console.log(shownProduct);
   }
 }
 showRandProducts();
@@ -116,8 +116,6 @@ function clickImg(event) {
 function displayResults() {
   let listResults = document.getElementById('results');
 
-  // console.log(allProducts);
-
   for (let i = 0; i < allProducts.length; i++) {
     let product = allProducts[i];
     let item = document.createElement('li');
@@ -127,3 +125,21 @@ function displayResults() {
 }
 let viewResults = document.getElementById('view-results');
 viewResults.addEventListener('click', displayResults);
+
+// local storage save, retrieve & render functions
+
+function save() {
+  let stringifyProd = JSON.stringify(allProducts);
+  localStorage.setItem('products', stringifyProd);
+}
+function get() {
+  let retrievedArray = [];
+  let retrievedProd = localStorage.getItem('products');
+  JSON.parse(retrievedProd);
+  retrievedArray.push(retrievedProd);
+}
+// function renderData() {
+// }
+// renderData();
+save();
+get();
