@@ -4,10 +4,10 @@ body {
   padding: 0px;
 }
 
- header {
+header {
   background-color: rgb(240, 240, 232);
   margin: 0px;
- }
+}
 
 h1 {
   color: rgb(79, 11, 79);
@@ -42,18 +42,17 @@ button {
   margin-right: auto;
   cursor: pointer;
   border-radius: 1em;
-
 }
- button:hover {
+button:hover {
   background-color: silver;
- }
+}
 
 li {
   list-style: none;
   padding-top: 10px;
   text-align: center;
   margin-left: auto;
-  margin-right: auto;  
+  margin-right: auto;
 }
 
 #results {

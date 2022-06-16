@@ -72,22 +72,20 @@ function showRandProducts() {
 
     shownProduct.views++;
     shownProduct.render(i);
-    console.log(`shownProduct: ${shownProduct}`);
+    console.log(shownProduct);
   }
 }
 showRandProducts();
 
 // add / remove event listener
 
-let totalClicks = 6;
+let totalClicks = 25;
 let currentClicks = 0;
 
 function addClickHandler(i) {
   let img = document.getElementById(`img-${i}`);
   img.addEventListener('click', clickImg);
-  
-  shownProducts[i].votes++;
-  
+
   if (currentClicks === totalClicks) {
     img.removeEventListener('click', clickImg);
   } else {
@@ -98,10 +96,14 @@ addClickHandler(0);
 addClickHandler(1);
 addClickHandler(2);
 
-// current clicks counter function
+// votes & current clicks counter function
 
-function clickImg() {
+function clickImg(event) {
+  event.preventDefault();
   currentClicks++;
+  let id = event.target.id[4];
+  shownProducts[id].votes++;
+  console.log(allProducts);
   randomProducts = [];
   showRandProducts();
   addClickHandler(0);
@@ -114,6 +116,8 @@ function clickImg() {
 function displayResults() {
   let listResults = document.getElementById('results');
 
+  // console.log(allProducts);
+
   for (let i = 0; i < allProducts.length; i++) {
     let product = allProducts[i];
     let item = document.createElement('li');
@@ -123,39 +127,3 @@ function displayResults() {
 }
 let viewResults = document.getElementById('view-results');
 viewResults.addEventListener('click', displayResults);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function addClickHandler(i) {
-//   let clickOnImg = document.getElementById(`img-${i}`);
-//   clickOnImg.addEventListener('click', function() {
-//     // console.log(`clicked item ${i}`);
-//     shownProducts[i].clicks++;
-//     showRandProducts();
-//   });
-// }
-// addClickHandler(0);
-// addClickHandler(1);
-// addClickHandler(2);
