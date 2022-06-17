@@ -50,9 +50,10 @@ function randomImage() {
 // 3 random products array maker function
 
 let randomProducts = [];
+let uniqueImageCount = 3;
 
 function randProductArray() {
-  while (randomProducts.length < 3) {
+  while (randomProducts.length < uniqueImageCount) {
     let randomProduct = randomImage();
     if (!randomProducts.includes(randomProduct)) {
       randomProducts.push(randomProduct);
@@ -88,6 +89,7 @@ function addClickHandler(i) {
 
   if (currentClicks === totalClicks) {
     img.removeEventListener('click', clickImg);
+    renderChart();
   } else {
     return;
   }
@@ -138,8 +140,49 @@ function get() {
   JSON.parse(retrievedProd);
   retrievedArray.push(retrievedProd);
 }
-// function renderData() {
-// }
-// renderData();
 save();
 get();
+
+// chartjs function
+
+function renderChart() {
+  let ctx = document.getElementById('myChart');
+  let names = [];
+  let views = [];
+  let votes = [];
+
+  for (let i = 0; i < allProducts.length; i++) {
+    names.push(allProducts[i].name);
+    views.push(allProducts[i].views);
+    votes.push(allProducts[i].votes);
+  }
+  // eslint-disable-next-line no-undef
+  let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: names,
+      datasets: [
+        {
+          label: '# of Views',
+          data: views,
+          backgroundColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 1.5,
+        },
+        {
+          label: '# of Votes',
+          data: votes,
+          backgroundColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1.5,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+  console.log(myChart);
+}
