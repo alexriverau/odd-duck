@@ -47,22 +47,30 @@ function randomImage() {
   return allProducts[randImg];
 }
 
-// 3 random products array maker function
+// unique products maker function
 
 let randomProducts = [];
-let uniqueImageCount = 3;
+let prevRandProducts = [];
+let uniqueProdCount = 3;
 
 function randProductArray() {
-  while (randomProducts.length < uniqueImageCount) {
+  while (randomProducts.length < uniqueProdCount) {
     let randomProduct = randomImage();
-    if (!randomProducts.includes(randomProduct)) {
+    if (
+      !randomProducts.includes(randomProduct) &&
+      !prevRandProducts.includes(randomProduct)
+    ) {
       randomProducts.push(randomProduct);
+      prevRandProducts.push(randomProduct);
     }
+  }
+  if (prevRandProducts.length === 6) {
+    prevRandProducts.splice(0, 3);
   }
   return randomProducts;
 }
 
-// display 3 random products function
+// show unique products function
 
 let shownProducts = [];
 
@@ -111,9 +119,11 @@ function clickImg(event) {
   addClickHandler(0);
   addClickHandler(1);
   addClickHandler(2);
+  save();
+  get();
 }
 
-// display results function
+// display results after button click function
 
 function displayResults() {
   let listResults = document.getElementById('results');
@@ -140,8 +150,6 @@ function get() {
   JSON.parse(retrievedProd);
   retrievedArray.push(retrievedProd);
 }
-save();
-get();
 
 // chartjs function
 
