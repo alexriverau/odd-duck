@@ -59,6 +59,17 @@ li {
   margin-top: 20px;
 }
 
+#canvas {
+  height: 50%;
+  width: 75%;
+  display: block;
+  margin: auto;
+}
+
+#myChart {
+  margin-top: 25px;
+}
+
 footer {
   margin-top: 60px;
   padding-top: 25px;
