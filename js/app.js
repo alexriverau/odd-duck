@@ -81,7 +81,7 @@ function showRandProducts() {
 
     shownProduct.views++;
     shownProduct.render(i);
-    // console.log(shownProduct);
+    console.log(shownProduct);
   }
 }
 showRandProducts();
