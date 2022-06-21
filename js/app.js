@@ -47,7 +47,7 @@ function randomImage() {
   return allProducts[randImg];
 }
 
-// unique products maker function
+// unique products array maker function
 
 let randomProducts = [];
 let prevRandProducts = [];
@@ -81,12 +81,11 @@ function showRandProducts() {
 
     shownProduct.views++;
     shownProduct.render(i);
-    console.log(shownProduct);
   }
 }
 showRandProducts();
 
-// add / remove event listener
+// add & remove event listener
 
 let totalClicks = 25;
 let currentClicks = 0;
@@ -101,6 +100,7 @@ function addClickHandler(i) {
   } else {
     return;
   }
+  save();
 }
 addClickHandler(0);
 addClickHandler(1);
@@ -113,17 +113,14 @@ function clickImg(event) {
   currentClicks++;
   let id = event.target.id[4];
   shownProducts[id].votes++;
-  console.log(allProducts);
   randomProducts = [];
   showRandProducts();
   addClickHandler(0);
   addClickHandler(1);
   addClickHandler(2);
-  save();
-  get();
 }
 
-// display results after button click function
+// display results after click button function
 
 function displayResults() {
   let listResults = document.getElementById('results');
@@ -138,17 +135,24 @@ function displayResults() {
 let viewResults = document.getElementById('view-results');
 viewResults.addEventListener('click', displayResults);
 
-// local storage save, retrieve & render functions
+// local storage save & retrieve functions
 
 function save() {
-  let stringifyProd = JSON.stringify(allProducts);
-  localStorage.setItem('products', stringifyProd);
+  if (localStorage.getItem('products') === null) {
+    let stringifyProd = JSON.stringify(allProducts);
+    localStorage.setItem('products', stringifyProd);
+  } else get();
 }
+
 function get() {
-  let retrievedArray = [];
   let retrievedProd = localStorage.getItem('products');
-  JSON.parse(retrievedProd);
-  retrievedArray.push(retrievedProd);
+  retrievedProd = JSON.parse(retrievedProd);
+  for (let i = 0; i < allProducts.length; i++) {
+    allProducts[i].views = allProducts[i].views + retrievedProd[i].views;
+    allProducts[i].votes = allProducts[i].votes + retrievedProd[i].votes;
+  }
+  let sumProd = JSON.stringify(allProducts);
+  localStorage.setItem('products', sumProd);
 }
 
 // chartjs function
