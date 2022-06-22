@@ -9,13 +9,6 @@ function Product(name) {
   this.votes = 0;
 }
 
-// render images function
-
-Product.prototype.render = function (i) {
-  let img = document.getElementById(`img-${i}`);
-  img.src = this.src;
-};
-
 // products array
 
 let allProducts = [
@@ -40,6 +33,13 @@ let allProducts = [
   new Product('wine-glass'),
 ];
 
+// render images function
+
+Product.prototype.render = function (i) {
+  let img = document.getElementById(`img-${i}`);
+  img.src = this.src;
+};
+
 // random image generator function
 
 function randomImage() {
@@ -47,14 +47,32 @@ function randomImage() {
   return allProducts[randImg];
 }
 
-// unique products array maker function
+// local storage save & retrieve functions
+
+function save() {
+  if (localStorage.getItem('products') === null) {
+    let stringifyProd = JSON.stringify(allProducts);
+    localStorage.setItem('products', stringifyProd);
+  } else get();
+}
+function get() {
+  let retrievedProd = localStorage.getItem('products');
+  retrievedProd = JSON.parse(retrievedProd);
+  for (let i = 0; i < allProducts.length; i++) {
+    allProducts[i].views = allProducts[i].views + retrievedProd[i].views;
+    allProducts[i].votes = allProducts[i].votes + retrievedProd[i].votes;
+  }
+  let sumProd = JSON.stringify(allProducts);
+  localStorage.setItem('products', sumProd);
+}
+
+// unique product generator function
 
 let randomProducts = [];
 let prevRandProducts = [];
-let uniqueProdCount = 3;
 
 function randProductArray() {
-  while (randomProducts.length < uniqueProdCount) {
+  while (randomProducts.length < 3) {
     let randomProduct = randomImage();
     if (
       !randomProducts.includes(randomProduct) &&
@@ -85,80 +103,45 @@ function showRandProducts() {
 }
 showRandProducts();
 
-// add & remove event listener
+// add & remove click handler
 
 let totalClicks = 25;
 let currentClicks = 0;
 
 function addClickHandler(i) {
   let img = document.getElementById(`img-${i}`);
-  img.addEventListener('click', clickImg);
-
+  img.addEventListener('click', onClick);
+}
+function onClick(event) {
+  event.preventDefault();
+  let id = event.target.id;
   if (currentClicks === totalClicks) {
-    img.removeEventListener('click', clickImg);
-    renderChart();
+    for (let i = 0; i < 2; i++) {
+      let img = document.getElementById(`image${i}`);
+      img.removeEventListener('click', addClickHandler);
+    }
+    alert('Voting has ended, please View Results.');
   } else {
-    return;
+    currentClicks++;
+    shownProducts[`${id[4]}`].votes++;
+    randomProducts = [];
+    showRandProducts();
   }
-  save();
 }
 addClickHandler(0);
 addClickHandler(1);
 addClickHandler(2);
 
-// votes & current clicks counter function
+// render chart button
 
-function clickImg(event) {
-  event.preventDefault();
-  currentClicks++;
-  let id = event.target.id[4];
-  shownProducts[id].votes++;
-  randomProducts = [];
-  showRandProducts();
-  addClickHandler(0);
-  addClickHandler(1);
-  addClickHandler(2);
-}
-
-// display results after click button function
-
-function displayResults() {
-  let listResults = document.getElementById('results');
-
-  for (let i = 0; i < allProducts.length; i++) {
-    let product = allProducts[i];
-    let item = document.createElement('li');
-    item.innerText = `${product.name} had ${product.votes} votes, and was seen ${product.views} times.`;
-    listResults.appendChild(item);
-  }
-}
 let viewResults = document.getElementById('view-results');
-viewResults.addEventListener('click', displayResults);
-
-// local storage save & retrieve functions
-
-function save() {
-  if (localStorage.getItem('products') === null) {
-    let stringifyProd = JSON.stringify(allProducts);
-    localStorage.setItem('products', stringifyProd);
-  } else get();
-}
-
-function get() {
-  let retrievedProd = localStorage.getItem('products');
-  retrievedProd = JSON.parse(retrievedProd);
-  for (let i = 0; i < allProducts.length; i++) {
-    allProducts[i].views = allProducts[i].views + retrievedProd[i].views;
-    allProducts[i].votes = allProducts[i].votes + retrievedProd[i].votes;
-  }
-  let sumProd = JSON.stringify(allProducts);
-  localStorage.setItem('products', sumProd);
-}
+viewResults.addEventListener('click', renderChart);
 
 // chartjs function
 
 function renderChart() {
-  let ctx = document.getElementById('myChart');
+  save();
+  let ctx = document.getElementById('myChart').getContext('2d');
   let names = [];
   let views = [];
   let votes = [];
@@ -168,7 +151,7 @@ function renderChart() {
     views.push(allProducts[i].views);
     votes.push(allProducts[i].votes);
   }
-  // eslint-disable-next-line no-undef
+
   let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -196,5 +179,4 @@ function renderChart() {
       },
     },
   });
-  console.log(myChart);
 }
